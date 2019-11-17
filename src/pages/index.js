@@ -1,21 +1,58 @@
 import React from "react"
-import { Link } from "gatsby"
-
-import Layout from "../components/layout"
-import Image from "../components/image"
+import { graphql } from "gatsby"
+import Layout from "../components/Layout"
+import PostLink from "../components/PostLink"
+import Author from "../components/Author"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+export default ({ data }) => {
+  const {
+    allCosmicjsPosts: { edges },
+  } = data
 
-export default IndexPage
+  return (
+    <Layout>
+      <SEO
+        title="#pragma once - A blog by Vitor Henrique"
+        description="All sorts of random stuff. You might learn something"
+      />
+      <Author />
+      <div>
+        {edges.map(({ node }) => {
+          const { id, metafields, title, created_at, slug } = node
+          const [description] = metafields
+          return (
+            <PostLink
+              title={title}
+              date={created_at}
+              excerpt={description.value}
+              slug={slug}
+              key={id}
+            />
+          )
+        })}
+      </div>
+    </Layout>
+  )
+}
+
+export const data = graphql`
+  query {
+    allCosmicjsPosts {
+      totalCount
+      edges {
+        node {
+          id
+          slug
+          title
+          created_at
+          metafields {
+            id
+            title
+            value
+          }
+        }
+      }
+    }
+  }
+`
