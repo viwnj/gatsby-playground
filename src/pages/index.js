@@ -1,4 +1,5 @@
 import React from "react"
+import { format, parseISO } from "date-fns"
 import { graphql } from "gatsby"
 import Layout from "../components/Layout"
 import PostLink from "../components/PostLink"
@@ -7,7 +8,7 @@ import SEO from "../components/seo"
 
 export default ({ data }) => {
   const {
-    allCosmicjsPosts: { edges },
+    allContentfulBlogPost: { edges },
   } = data
 
   return (
@@ -19,16 +20,18 @@ export default ({ data }) => {
       <Author />
       <div>
         {edges.map(({ node }) => {
-          const { id, metafields, title, created_at, slug } = node
-          const [description] = metafields
+          const { id, description, title, createdAt, slug } = node
+          const formattedDate = format(parseISO(createdAt), "yyyy, MMMM,  do")
+
           return (
-            <PostLink
-              title={title}
-              date={created_at}
-              excerpt={description.value}
-              slug={slug}
-              key={id}
-            />
+            <PostLink key={id} slug={slug}>
+              <div>
+                <h3>{title}</h3>
+                <span>{formattedDate}</span>
+
+                <p>{description.description}</p>
+              </div>
+            </PostLink>
           )
         })}
       </div>
@@ -38,18 +41,19 @@ export default ({ data }) => {
 
 export const data = graphql`
   query {
-    allCosmicjsPosts {
+    allContentfulBlogPost {
       totalCount
       edges {
         node {
           id
           slug
           title
-          created_at
-          metafields {
-            id
-            title
-            value
+          createdAt
+          author {
+            name
+          }
+          description {
+            description
           }
         }
       }

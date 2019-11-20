@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `#pragma once`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    author: `@_pragmaonce`,
   },
   plugins: [
     "gatsby-plugin-offline",
@@ -23,16 +23,14 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-source-cosmicjs`,
+      resolve: `gatsby-source-contentful`,
       options: {
-        bucketSlug: `viwnj-devblog`,
-        objectTypes: [`posts`, "settings"],
-        apiAccess: {
-          read_key: `lcFiBHhlHEMciMwIL8t6uuQetjRgJl4oI1aAXzAhiTbay9M904`,
-        },
+        spaceId: `7akyn8y0njsj`,
+        // Learn about environment variables: https://gatsby.app/env-vars
+        accessToken: "Da1q77giGzC83l1x0pDI9n9PVv6yOmIbxg8FDV8Jm7Y",
+        downloadLocal: true,
       },
     },
-
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {

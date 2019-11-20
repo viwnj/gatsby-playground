@@ -8,9 +8,11 @@ export const Container = styled.div`
 
   h3 {
     color: ${props => props.theme.palette.font[0]};
-    span {
-      color: ${props => props.theme.palette.font[1]};
-    }
+  }
+
+  span {
+    font-style: italic;
+    color: ${props => props.theme.palette.font[0]};
   }
 
   p {
