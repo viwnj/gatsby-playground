@@ -9,7 +9,10 @@ import darkTheme from "../../themes/dark"
 import lightTheme from "../../themes/light"
 
 export default function Layout({ children }) {
-  const stringValue = localStorage.getItem("isDarkTheme")
+  const stringValue =
+    typeof window !== "undefined"
+      ? localStorage.getItem("isDarkTheme")
+      : "false"
   const boolValue = /true/i.test(stringValue)
   const [isDarkTheme, setDarkTheme] = React.useState(boolValue)
 
